@@ -9,7 +9,8 @@
 #define LSen A1   //Left edge or line sensor (pin 21)
 #define CSen A0   //Center line sensor (pin 20)
 #define Sharp A3  //Targeting Sensor (pin 23)
-#define AssSensor 3
+#define AssSensor 12
+
 //Motor control
 #define ENR 6   //Right motor PWM (pin 9)
 #define RD1 2   //Right motor dir1 (pin 5)
@@ -23,7 +24,7 @@
 //Switches
 //?The definitions below are switches to Enable and Disable secions of predefined logic
 // Remove the "//" before a definition to Enable or add to Disable
-#define Debug       //? Enables serial printout of sensors
+// #define Debug       //? Enables serial printout of sensors
 //#define RampEn      //? Enables motor ramp up logic !!not finished!!
  
 //------------------End Definitions Section---------------------//
@@ -35,7 +36,7 @@ int SharpLvl = 250;  //Threshold for sharp targeting sensor (0-1023 higher numbe
 int MinSpd = 130;   //Minimum speed for motors to run (0-255  default: 0)
 int FwdSpd = 130;   //Variable for reverse speed (0-255  default: 150)
 int RevSpd = 190;   //Variable for reverse speed (0-255  default: 100)
-int Turn = 150;     //Variable for turnig speed (0-255  default: 80)
+int Turn = 255;     //Variable for turnig speed (0-255  default: 80)
 int RSenOff = 0;    //Right senosr offest to compensate for bad alignment
 int LSenOff = 0;    //Left sensor offest to compensate for bad alignment
 int MaxSpd = 200;   //Maximum speed for all motions (0-255  default: 200)
@@ -193,11 +194,12 @@ void loop() {
     delay(800);
   } else if (SharpCur > SharpLvl){
     Fwd();
-  } else if (AssValue = 1){
+  }else if (AssValue == LOW){
+    digitalWrite(LED_BUILTIN, HIGH);
     RotR();
-    delay(500);
+    delay(2000);
     Fwd();
-    delay(1000);
+    delay(5000);  
   } else{
     RotR();
   }
